@@ -27,6 +27,7 @@ import Basket from '../assets/img/headerIcons/lets-icons_basket-alt-3-light.svg'
 import RegLog from '../assets/img/headerIcons/Union.svg';
 //Others
 import Logo from '../assets/img/logo.svg';
+import Cross from '../assets/img/Cross.svg';
 
 export {
   HamAndCheeseSmall,
@@ -54,4 +55,5 @@ export {
   Orders,
   Basket,
   RegLog,
+  Cross,
 };

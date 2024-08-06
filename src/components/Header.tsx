@@ -5,7 +5,7 @@ const Header = () => {
   return (
     <header
       className={
-        'w-full h-[80px] flex justify-center items-center fixed left-0 border-b-[1px] bg-white font-[500]'
+        'w-screen h-[80px] flex justify-center items-center fixed left-0 border-b-[1px] bg-white font-[500]'
       }>
       <div className={'container flex gap-[32px]'}>
         <img src={Logo} alt='' />

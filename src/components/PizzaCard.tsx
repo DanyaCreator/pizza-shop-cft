@@ -1,13 +1,20 @@
-import ChooseBtn from './buttons/ChooseBtn.tsx';
+import RoundedBtn from './buttons/RoundedBtn.tsx';
 
 type PizzaCardProps = {
   image: string;
   name: string;
   description: string;
   cost: number;
+  openPizzaModal: () => void;
 };
 
-const PizzaCard = ({ image, name, description, cost }: PizzaCardProps) => {
+const PizzaCard = ({
+  image,
+  name,
+  description,
+  cost,
+  openPizzaModal,
+}: PizzaCardProps) => {
   return (
     <article className={'w-[298px]'}>
       <div className={'flex justify-center pb-[24px]'}>
@@ -19,7 +26,7 @@ const PizzaCard = ({ image, name, description, cost }: PizzaCardProps) => {
       </div>
       <div className={'flex flex-col gap-[24px]'}>
         <span className={'font-[600] text-[20px]'}>от {cost} ₽</span>
-        <ChooseBtn />
+        <RoundedBtn onClick={openPizzaModal} text={'Выбрать'} />
       </div>
     </article>
   );

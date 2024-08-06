@@ -2,16 +2,16 @@
 @tailwind components;
 @tailwind utilities;
 
-body {
-    font-family: "Inter", sans-serif;
-    font-optical-sizing: auto;
-    font-style: normal;
-}
-
 * {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
+}
+
+body {
+    font-family: "Inter", sans-serif;
+    font-optical-sizing: auto;
+    font-style: normal;
 }
 
 .main-content {
@@ -32,18 +32,39 @@ body {
     grid-template-columns: repeat(3, 1fr);
     grid-template-rows: repeat(2, 1fr);
     grid-gap: 11px;
+    padding-top: 16px;
 }
 
-.pizza-size-btn:focus {
-    color: rgb(0, 0, 0);
-    font-weight: 500;
-    background-color: #dfdfdf;
+.pizza-size-btn {
+    width: 130px;
+    height: 40px;
+    box-shadow: 0 4px 12px 0 #1A1A1E26;
+    padding: 10px 16px 10px 16px;
+}
+
+.pizza-addition-btn {
+    box-shadow: 0 4px 12px 0 #1A1A1E26;
+    border-radius: 16px;
 }
 
 .pizza-info-menu {
     overflow-y: scroll;
-    scrollbar-width: thin;
-    scrollbar-color: #CED2DA white;
-    border-radius: 15px;
 }
+
+.pizza-info-menu::-webkit-scrollbar {
+    width: 9px;
+}
+
+.pizza-info-menu::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.pizza-info-menu::-webkit-scrollbar-thumb {
+    background: #CED2DA;
+    border-radius: 10px;
+}
+
+
+
+
 
