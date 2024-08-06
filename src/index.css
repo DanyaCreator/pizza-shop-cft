@@ -2,11 +2,48 @@
 @tailwind components;
 @tailwind utilities;
 
-* {
-  box-sizing: border-box;
+body {
+    font-family: "Inter", sans-serif;
+    font-optical-sizing: auto;
+    font-style: normal;
 }
 
-body {
-  height: 100vh;
-  overflow: hidden;
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
 }
+
+.main-content {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    padding-top: 150px;
+    padding-bottom: 100px;
+    grid-row-gap: 48px;
+    grid-column-gap: 32px;
+    justify-items: center;
+}
+
+.pizza-addition-menu {
+    width: 124px;
+    height: 192px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    grid-gap: 11px;
+}
+
+.pizza-size-btn:focus {
+    color: rgb(0, 0, 0);
+    font-weight: 500;
+    background-color: #dfdfdf;
+}
+
+.pizza-info-menu {
+    overflow-y: scroll;
+    scrollbar-width: thin;
+    scrollbar-color: #CED2DA white;
+    border-radius: 15px;
+}
+
