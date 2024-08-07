@@ -26,8 +26,6 @@ body {
 }
 
 .pizza-addition-menu {
-    width: 124px;
-    height: 192px;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     grid-template-rows: repeat(2, 1fr);
@@ -48,7 +46,9 @@ body {
 }
 
 .pizza-info-menu {
+    height: 500px;
     overflow-y: scroll;
+    padding-right: 15px;
 }
 
 .pizza-info-menu::-webkit-scrollbar {
@@ -64,7 +64,26 @@ body {
     border-radius: 10px;
 }
 
+@media (max-width: 1024px) {
+    .main-content {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
 
+@media (max-width: 768px) {
+    .main-content {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    .container {
+        width: 768px;
+    }
+}
+
+@media (max-width: 480px) {
+    .main-content {
+        grid-template-columns: repeat(1, 1fr);
+    }
+}
 
 
 

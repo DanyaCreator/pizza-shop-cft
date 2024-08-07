@@ -16,7 +16,7 @@ const PizzaCard = ({
   openPizzaModal,
 }: PizzaCardProps) => {
   return (
-    <article className={'w-[298px]'}>
+    <article className={''}>
       <div className={'flex justify-center pb-[24px]'}>
         <img src={image} alt='' />
       </div>
