@@ -16,17 +16,19 @@ const PizzaCard = ({
   openPizzaModal,
 }: PizzaCardProps) => {
   return (
-    <article className={''}>
-      <div className={'flex justify-center pb-[24px]'}>
+    <article className={'w-[298px] flex flex-col gap-[24px]'}>
+      <div className={'flex justify-center'}>
         <img src={image} alt='' />
       </div>
-      <div className={'flex flex-col gap-[8px] pb-[32px]'}>
-        <span className={'font-[600] text-[20px]'}>{name}</span>
-        <p className={'font-[400]'}>{description}</p>
-      </div>
-      <div className={'flex flex-col gap-[24px]'}>
-        <span className={'font-[600] text-[20px]'}>от {cost} ₽</span>
-        <RoundedBtn onClick={openPizzaModal} text={'Выбрать'} />
+      <div className={'h-full flex flex-col justify-between'}>
+        <div className={'flex flex-col'}>
+          <span className={'font-[600] text-[20px]'}>{name}</span>
+          <p className={'font-[400]'}>{description}</p>
+        </div>
+        <div className={'flex flex-col gap-[24px]'}>
+          <span className={'font-[600] text-[20px] mt-[32px]'}>от {cost} ₽</span>
+          <RoundedBtn onClick={openPizzaModal} text={'Выбрать'} />
+        </div>
       </div>
     </article>
   );

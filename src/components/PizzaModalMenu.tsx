@@ -10,7 +10,7 @@ import PizzaSizeBtn from './buttons/PizzaSizeBtn.tsx';
 import PizzaAdditionBtn from './buttons/PizzaAdditionBtn.tsx';
 import RoundedBtn from './buttons/RoundedBtn.tsx';
 
-const PizzaMenu = () => {
+const PizzaModalMenu = () => {
   return (
     <div
       className={
@@ -21,7 +21,7 @@ const PizzaMenu = () => {
       </div>
       <div className={'flex flex-col gap-[24px]'}>
         <div className={'pizza-info-menu'}>
-          <div className={'flex flex-col gap-[8px]'}>
+          <div className={'flex flex-col gap-[8px] pl-[10px]'}>
             <h1 className={'font-[700] text-[#292929] text-[24px]'}>
               Двойной цыпленок
             </h1>
@@ -32,13 +32,15 @@ const PizzaMenu = () => {
               Цыпленок, моцарелла, фирменный соус альфредо
             </span>
           </div>
-          <div className={'flex justify-between pt-[26px] pb-[26px]'}>
+          <div className={'flex justify-between pt-[26px] pb-[26px] pl-[10px]'}>
             <PizzaSizeBtn size={'Маленькая'} />
             <PizzaSizeBtn size={'Средняя'} />
             <PizzaSizeBtn size={'Большая'} />
           </div>
           <article className={'text-[#292929] h-full'}>
-            <span className={'font-[500] text-[16px]'}>Добавить по вкусу</span>
+            <span className={'font-[500] text-[16px] pl-[10px]'}>
+              Добавить по вкусу
+            </span>
             <div className={'pizza-addition-menu'}>
               <PizzaAdditionBtn
                 image={CheeseSideBig}
@@ -74,4 +76,4 @@ const PizzaMenu = () => {
   );
 };
 
-export default PizzaMenu;
+export default PizzaModalMenu;
