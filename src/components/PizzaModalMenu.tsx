@@ -5,14 +5,17 @@ import {
   PepperBig,
   ShrimpBig,
 } from '../assets/images.ts';
-import PizzaSizeBtn from './buttons/PizzaSizeBtn.tsx';
+import PizzaSizeRadio from './buttons/PizzaSizeRadio.tsx';
 import PizzaAdditionBtn from './buttons/PizzaAdditionBtn.tsx';
 import RoundedBtn from './buttons/RoundedBtn.tsx';
 import { PizzaData } from '../data/pizzasData.ts';
+import { useState } from 'react';
 
 type PizzaModalMenuProps = Omit<PizzaData, 'cost'>;
 
 const PizzaModalMenu = ({ image, name, description }: PizzaModalMenuProps) => {
+  const [activePizzaSizeBtn, setActivePizzaSizeBtn] = useState(25);
+
   return (
     <div
       className={
@@ -21,19 +24,38 @@ const PizzaModalMenu = ({ image, name, description }: PizzaModalMenuProps) => {
       <div className={'flex self-start w-[220px]'}>
         <img src={image} alt='' />
       </div>
-      <div className={'w-[426px] flex flex-col gap-[24px]'}>
+      <form className={'w-[426px] flex flex-col gap-[24px]'}>
         <div className={'pizza-info-menu'}>
           <div className={'flex flex-col gap-[8px] pl-[10px]'}>
             <h1 className={'font-[700] text-[#292929] text-[24px]'}>{name}</h1>
             <span className={'font-[400] text-[#535353] text-[14px]'}>
-              {25} см, традиционное тесто
+              {activePizzaSizeBtn} см, традиционное тесто
             </span>
             <span className={'font-[400] text-[#535353] text-[16px]'}>
               {description}
             </span>
           </div>
           <div className={'flex justify-between pt-[26px] pb-[26px] pl-[10px]'}>
-            <PizzaSizeBtn />
+            <fieldset
+              className={
+                'w-full flex justify-between bg-[#F3F4F6] h-[44px] items-center rounded-[16px] p-[2px]'
+              }>
+              <PizzaSizeRadio
+                checked={activePizzaSizeBtn === 25}
+                onChange={() => setActivePizzaSizeBtn(25)}
+                title={'Маленькая'}
+              />
+              <PizzaSizeRadio
+                checked={activePizzaSizeBtn === 30}
+                onChange={() => setActivePizzaSizeBtn(30)}
+                title={'Средняя'}
+              />
+              <PizzaSizeRadio
+                checked={activePizzaSizeBtn === 35}
+                onChange={() => setActivePizzaSizeBtn(35)}
+                title={'Большая'}
+              />
+            </fieldset>
           </div>
           <article className={'text-[#292929] h-full'}>
             <span className={'font-[500] text-[16px] pl-[10px]'}>
@@ -74,7 +96,7 @@ const PizzaModalMenu = ({ image, name, description }: PizzaModalMenuProps) => {
           </article>
         </div>
         <RoundedBtn onClick={() => {}} text={'Добавить в корзину'} />
-      </div>
+      </form>
     </div>
   );
 };
