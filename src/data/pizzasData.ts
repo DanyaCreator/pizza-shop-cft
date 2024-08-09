@@ -5,7 +5,14 @@ import {
   PepperoniBig,
 } from '../assets/images.ts';
 
-export const pizzaData = [
+export type PizzaData = {
+  image: string;
+  name: string;
+  description: string;
+  cost: number;
+};
+
+export const pizzaData: PizzaData[] = [
   {
     image: PepperoniBig,
     name: 'Пепперони',
