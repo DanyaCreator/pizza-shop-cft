@@ -36,7 +36,7 @@ const PizzaModalMenu = ({ image, name, description }: PizzaModalMenuProps) => {
             </span>
           </div>
           <div className={'flex justify-between pt-[26px] pb-[26px] pl-[10px]'}>
-            <fieldset
+            <form
               className={
                 'w-full flex justify-between bg-[#F3F4F6] h-[44px] items-center rounded-[16px] p-[2px]'
               }>
@@ -55,7 +55,7 @@ const PizzaModalMenu = ({ image, name, description }: PizzaModalMenuProps) => {
                 onChange={() => setActivePizzaSizeBtn(35)}
                 title={'Большая'}
               />
-            </fieldset>
+            </form>
           </div>
           <article className={'text-[#292929] h-full'}>
             <span className={'font-[500] text-[16px] pl-[10px]'}>

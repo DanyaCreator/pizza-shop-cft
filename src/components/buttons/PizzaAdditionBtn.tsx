@@ -21,7 +21,7 @@ const PizzaAdditionBtn = ({
       <label
         htmlFor={`pizza-addition-btn${number}`}
         className={
-          'pizza-addition-btn w-[124px] h-[192px] flex flex-col justify-between p-[8px] cursor-pointer peer-checked:outline outline-1 outline-[#F4511E] transition-colors duration-200 ease-in-out'
+          'pizza-addition-btn w-[124px] h-[192px] flex flex-col justify-between p-[8px] cursor-pointer peer-checked:outline outline-1 outline-[#F4511E]'
         }>
         <img src={image} alt='' />
         <span className={'text-[12px] font-[400] text-center'}>{name}</span>

@@ -26,7 +26,9 @@ const PizzaCard = ({
           <p className={'font-[400]'}>{description}</p>
         </div>
         <div className={'flex flex-col gap-[24px]'}>
-          <span className={'font-[600] text-[20px] mt-[32px]'}>от {cost} ₽</span>
+          <span className={'font-[600] text-[20px] mt-[32px]'}>
+            от {cost} ₽
+          </span>
           <RoundedBtn onClick={openPizzaModal} text={'Выбрать'} />
         </div>
       </div>

@@ -12,12 +12,12 @@ const PizzaSizeRadio = ({ checked, onChange, title }: PizzaSizeRadioProps) => {
         checked={checked}
         onChange={onChange}
         className={
-          'transition-colors absolute w-full h-full rounded-[14px] cursor-pointer appearance-none peer checked:bg-[#FFFFFF]'
+          'transition-colors duration-200 absolute w-full h-full rounded-[14px] cursor-pointer appearance-none peer checked:bg-[#FFFFFF]'
         }
       />
       <label
         className={
-          'transition-colors absolute text-[#637083] font-[400] top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%] pointer-events-none peer-checked:text-[#141C24]'
+          'transition duration-200 absolute text-[#637083] font-[400] top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%] pointer-events-none peer-checked:text-[#141C24]'
         }>
         {title}
       </label>

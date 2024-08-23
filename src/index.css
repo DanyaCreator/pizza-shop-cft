@@ -65,6 +65,12 @@ body {
     border-radius: 10px;
 }
 
+.phone-field::-webkit-outer-spin-button,
+.phone-field::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
 @media (max-width: 1024px) {
     .main-content {
         grid-template-columns: repeat(2, 1fr);

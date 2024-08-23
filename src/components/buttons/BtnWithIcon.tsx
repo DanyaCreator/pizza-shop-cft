@@ -1,11 +1,12 @@
 type BtnWithIconProps = {
   text: string;
   image: string;
+  openModalInfo: () => void;
 };
 
-const BtnWithIcon = ({ text, image }: BtnWithIconProps) => {
+const BtnWithIcon = ({ text, image, openModalInfo }: BtnWithIconProps) => {
   return (
-    <button>
+    <button onClick={openModalInfo}>
       <div className='flex gap-[16px]'>
         <img src={image} alt='' />
         {text}

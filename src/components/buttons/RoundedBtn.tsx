@@ -5,11 +5,20 @@ type ChooseBtnProps = {
 
 const RoundedBtn = ({ onClick, text }: ChooseBtnProps) => {
   return (
-    <button
-      className={'bg-[#F4511E] w-full h-[56px] rounded-[16px]'}
-      onClick={onClick}>
-      <span className={'font-[600] text-white'}>{text}</span>
-    </button>
+    <div className={'group rounded-[16px] w-full'}>
+      <button
+        className={
+          'w-full bg-[#F4511E] h-[56px] rounded-[16px] group-hover:bg-white group-hover: border-[1px] border-[#F4511E] transition-colors duration-300'
+        }
+        onClick={onClick}>
+        <span
+          className={
+            'font-[500] text-white group-hover:text-[#F4511E] transition-colors duration-300 '
+          }>
+          {text}
+        </span>
+      </button>
+    </div>
   );
 };
 
