@@ -18,7 +18,7 @@ const PizzaCard = ({
   return (
     <article className={'w-[298px] flex flex-col gap-[24px]'}>
       <div className={'flex justify-center'}>
-        <img src={image} alt='' />
+        <img src={`https://shift-backend.onrender.com${image}`} alt='' />
       </div>
       <div className={'h-full flex flex-col justify-between'}>
         <div className={'flex flex-col'}>

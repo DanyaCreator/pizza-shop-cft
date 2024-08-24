@@ -1,34 +1,43 @@
 import ModalWrapper from './modal/ModalWrapper.tsx';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useLockedBody } from '../hooks/use-lock-body.hook.ts';
 import PizzaModalMenu from './PizzaModalMenu.tsx';
-import { PizzaData, pizzaData } from '../data/pizzasData.ts';
+import { PizzaData } from '../data/pizzasData.ts';
 import PizzaCard from './PizzaCard.tsx';
+import { PizzaCatalog } from '../types/Pizza/Pizza.ts';
+import { getCatalog } from '../api/getCatalog.ts';
 
 const MainContent = () => {
   const [activePizzaData, setActivePizzaData] = useState<Omit<
     PizzaData,
     'cost'
   > | null>(null);
+  const [pizzaCatalog, setPizzaCatalog] = useState<PizzaCatalog | null>();
   useLockedBody(!!activePizzaData);
+
+  useEffect(() => {
+    getCatalog().then(setPizzaCatalog);
+  }, []);
+
   return (
     <main className='container main-content'>
-      {pizzaData.map((pizzaData, index) => (
-        <PizzaCard
-          key={index}
-          image={pizzaData.image}
-          name={pizzaData.name}
-          description={pizzaData.description}
-          cost={pizzaData.cost}
-          openPizzaModal={() =>
-            setActivePizzaData({
-              image: pizzaData.image,
-              name: pizzaData.name,
-              description: pizzaData.description,
-            })
-          }
-        />
-      ))}
+      {pizzaCatalog &&
+        pizzaCatalog.catalog.map((pizzaData, index) => (
+          <PizzaCard
+            key={index}
+            image={pizzaData.img}
+            name={pizzaData.name}
+            description={pizzaData.description}
+            cost={pizzaData.sizes[0].price}
+            openPizzaModal={() =>
+              setActivePizzaData({
+                image: pizzaData.img,
+                name: pizzaData.name,
+                description: pizzaData.description,
+              })
+            }
+          />
+        ))}
       {activePizzaData && (
         <ModalWrapper onClose={() => setActivePizzaData(null)}>
           <PizzaModalMenu
