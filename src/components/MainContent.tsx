@@ -2,16 +2,19 @@ import ModalWrapper from './modal/ModalWrapper.tsx';
 import { useEffect, useState } from 'react';
 import { useLockedBody } from '../hooks/use-lock-body.hook.ts';
 import PizzaModalMenu from './PizzaModalMenu.tsx';
-import { PizzaData } from '../data/pizzasData.ts';
 import PizzaCard from './PizzaCard.tsx';
-import { PizzaCatalog } from '../types/Pizza/Pizza.ts';
+import { PizzaCatalog, PizzaIngredient } from '../types/Pizza/Pizza.ts';
 import { getCatalog } from '../api/getCatalog.ts';
 
+export type PizzaInfo = {
+  image: string;
+  name: string;
+  description: string;
+  ingredients: PizzaIngredient[];
+};
+
 const MainContent = () => {
-  const [activePizzaData, setActivePizzaData] = useState<Omit<
-    PizzaData,
-    'cost'
-  > | null>(null);
+  const [activePizzaData, setActivePizzaData] = useState<PizzaInfo | null>();
   const [pizzaCatalog, setPizzaCatalog] = useState<PizzaCatalog | null>();
   useLockedBody(!!activePizzaData);
 
@@ -34,6 +37,7 @@ const MainContent = () => {
                 image: pizzaData.img,
                 name: pizzaData.name,
                 description: pizzaData.description,
+                ingredients: pizzaData.ingredients,
               })
             }
           />
@@ -44,6 +48,7 @@ const MainContent = () => {
             image={activePizzaData.image}
             name={activePizzaData.name}
             description={activePizzaData.description}
+            ingredients={activePizzaData.ingredients}
           />
         </ModalWrapper>
       )}

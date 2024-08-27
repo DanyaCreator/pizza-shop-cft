@@ -20,7 +20,11 @@ module.exports = {
         xxl: '20rem',
       },
     },
-    extend: {},
+    extend: {
+      boxShadow: {
+        default: '0 4px 12px 0 #1A1A1E26',
+      },
+    },
   },
   plugins: [],
 };

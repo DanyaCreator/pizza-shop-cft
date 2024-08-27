@@ -1,4 +1,4 @@
-type PizzaIngredientNames =
+export type PizzaIngredientNames =
   | 'PINEAPPLE'
   | 'MOZZARELLA'
   | 'PEPERONI'
@@ -18,7 +18,7 @@ type PizzaIngredientNames =
   | 'CHICKEN_FILLET'
   | 'MEATBALLS';
 
-type PizzaIngredient = {
+export type PizzaIngredient = {
   name: PizzaIngredientNames;
   cost: number;
   img: string;

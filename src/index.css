@@ -34,18 +34,6 @@ body {
     padding-left: 10px;
 }
 
-.pizza-size-btn {
-    width: 130px;
-    height: 40px;
-    box-shadow: 0 4px 12px 0 #1A1A1E26;
-    padding: 10px 16px 10px 16px;
-}
-
-.pizza-addition-btn {
-    box-shadow: 0 4px 12px 0 #1A1A1E26;
-    border-radius: 16px;
-}
-
 .pizza-info-menu {
     height: 500px;
     overflow-y: scroll;

@@ -1,9 +1,14 @@
 import RoundedBtn from './buttons/RoundedBtn.tsx';
 import { useForm } from 'react-hook-form';
 
+type FormValues = {
+  phone: number;
+};
+
 const AuthorizationModal = () => {
-  const { register, handleSubmit } = useForm();
-  const onSubmit = (data) => console.log(data);
+  const { register, handleSubmit } = useForm<FormValues>();
+  const onSubmit = (data: FormValues) => console.log(data);
+
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
@@ -25,8 +30,7 @@ const AuthorizationModal = () => {
         placeholder='Телефон'
         {...register('phone', { required: true, maxLength: 11, minLength: 11 })}
       />
-      <input className={'hidden'} type='number' />
-      <RoundedBtn onClick={handleSubmit(onSubmit)} text={'Продолжить'} />
+      <RoundedBtn type={'submit'} text={'Продолжить'} />
     </form>
   );
 };
