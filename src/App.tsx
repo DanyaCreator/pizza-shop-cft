@@ -1,5 +1,11 @@
-function App() {
-  return <div className='w-[100vw] h-[100vh] bg-amber-300' />;
-}
+import MainPage from './pages/MainPage.tsx';
+
+const App = () => {
+  return (
+    <div>
+      <MainPage />
+    </div>
+  );
+};
 
 export default App;

@@ -3,10 +3,94 @@
 @tailwind utilities;
 
 * {
-  box-sizing: border-box;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
 }
 
 body {
-  height: 100vh;
-  overflow: hidden;
+    font-family: "Inter", sans-serif;
+    font-optical-sizing: auto;
+    font-style: normal;
 }
+
+.main-content {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    padding-top: 150px;
+    padding-bottom: 100px;
+    grid-row-gap: 48px;
+    grid-column-gap: 32px;
+    justify-items: center;
+}
+
+.pizza-addition-menu {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    grid-gap: 11px;
+    padding-top: 16px;
+    padding-left: 10px;
+}
+
+.pizza-size-btn {
+    width: 130px;
+    height: 40px;
+    box-shadow: 0 4px 12px 0 #1A1A1E26;
+    padding: 10px 16px 10px 16px;
+}
+
+.pizza-addition-btn {
+    box-shadow: 0 4px 12px 0 #1A1A1E26;
+    border-radius: 16px;
+}
+
+.pizza-info-menu {
+    height: 500px;
+    overflow-y: scroll;
+    padding-right: 15px;
+}
+
+.pizza-info-menu::-webkit-scrollbar {
+    width: 9px;
+}
+
+.pizza-info-menu::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.pizza-info-menu::-webkit-scrollbar-thumb {
+    background: #CED2DA;
+    border-radius: 10px;
+}
+
+.phone-field::-webkit-outer-spin-button,
+.phone-field::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+@media (max-width: 1024px) {
+    .main-content {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .main-content {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    .container {
+        width: 768px;
+    }
+}
+
+@media (max-width: 480px) {
+    .main-content {
+        grid-template-columns: repeat(1, 1fr);
+    }
+}
+
+
+
