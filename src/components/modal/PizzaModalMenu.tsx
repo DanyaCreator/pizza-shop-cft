@@ -5,12 +5,16 @@ import PizzaAdditionBtn from '../buttons/PizzaAdditionBtn.tsx';
 import { pizzasIngredientNames } from '../../consts/pizzasIngredientNames.ts';
 import { useForm } from 'react-hook-form';
 import { PizzaIngredientNames } from '../../types/Pizza/Pizza.ts';
+import { addPizzaToCart } from '../../api/localStorage.ts';
+import { useEffect, useState } from 'react';
 
-type PizzaModalMenuProps = PizzaInfo;
+type PizzaModalMenuProps = PizzaInfo & {
+  onClose: () => void;
+};
 
 type FormValues = {
   ingredients: PizzaIngredientNames[];
-  sizes: 'SMALL' | 'MEDIUM' | 'LARGE';
+  size: 'SMALL' | 'MEDIUM' | 'LARGE';
 };
 
 const pizzaSizes: Record<'SMALL' | 'MEDIUM' | 'LARGE', number> = {
@@ -24,15 +28,40 @@ const PizzaModalMenu = ({
   name,
   description,
   ingredients,
+  onClose,
 }: PizzaModalMenuProps) => {
   const { register, handleSubmit, watch } = useForm<FormValues>({
     defaultValues: {
       ingredients: [],
-      sizes: 'SMALL',
+      size: 'SMALL',
     },
   });
-  const onSubmit = (data: FormValues) => console.log(data);
-  const pizzaSizeWatch = watch('sizes');
+
+  const pizzaSizeWatch = watch('size');
+  const pizzaIngredientsWatch = watch('ingredients');
+
+  // TODO В useState добавь дефолтное значение, вдруг пользователь выбирать ничего не будет, пока что там 0, должна быть цена выбранной пиццы маленького размера
+  const [totalAmount, setTotalAmount] = useState(0);
+
+  useEffect(() => {
+    // TODO Здесь тебе нужно исходя из выбранных юзером данных в форме менять общую сумму пиццы, используй данные pizzaSizeWatch и pizzaIngredientsWatch
+  }, [pizzaSizeWatch, pizzaIngredientsWatch]);
+
+  const onSubmit = (data: FormValues) => {
+    const cartPizza = {
+      name: name,
+      description: description,
+      image: image,
+      ingredients: data.ingredients,
+      size: data.size,
+      // TODO Тут должна быть актуальная сумма
+      total: totalAmount,
+      count: 1,
+    };
+
+    addPizzaToCart(cartPizza);
+    onClose();
+  };
 
   return (
     <div
@@ -63,17 +92,17 @@ const PizzaModalMenu = ({
               <PizzaSizeRadio
                 title={'Маленькая'}
                 value={'SMALL'}
-                {...register('sizes')}
+                {...register('size')}
               />
               <PizzaSizeRadio
                 title={'Средняя'}
                 value={'MEDIUM'}
-                {...register('sizes')}
+                {...register('size')}
               />
               <PizzaSizeRadio
                 title={'Большая'}
                 value={'LARGE'}
-                {...register('sizes')}
+                {...register('size')}
               />
             </fieldset>
           </div>

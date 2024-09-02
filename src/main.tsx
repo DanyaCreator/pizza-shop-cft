@@ -4,7 +4,7 @@ import './index.css';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import MainPage from './pages/MainPage.tsx';
 import CartPage from './pages/CartPage.tsx';
-import { Page } from './consts/enum.ts';
+import { Page } from './enum/Page.ts';
 import Header from './components/Header.tsx';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(

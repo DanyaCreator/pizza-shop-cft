@@ -5,7 +5,7 @@ import { useState } from 'react';
 import ModalWrapper from './modal/ModalWrapper.tsx';
 import AuthorizationModal from './modal/AuthorizationModal.tsx';
 import { useNavigate } from 'react-router-dom';
-import { Page } from '../consts/enum.ts';
+import { Page } from '../enum/Page.ts';
 
 const Header = () => {
   const [activeModalInfo, setActiveModalInfo] = useState(false);

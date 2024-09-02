@@ -7,6 +7,7 @@ import { PizzaCatalog, PizzaIngredient } from '../types/Pizza/Pizza.ts';
 import { getCatalog } from '../api/getCatalog.ts';
 
 export type PizzaInfo = {
+  // TODO Добавь size, тип возьми готовый, тебе также нужно кидать инфу с ценой в зависимости от размера, глянь в типах
   image: string;
   name: string;
   description: string;
@@ -45,6 +46,7 @@ const MainContent = () => {
       {activePizzaData && (
         <ModalWrapper onClose={() => setActivePizzaData(null)}>
           <PizzaModalMenu
+            onClose={() => setActivePizzaData(null)}
             image={activePizzaData.image}
             name={activePizzaData.name}
             description={activePizzaData.description}

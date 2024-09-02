@@ -9,6 +9,8 @@ type PizzaInCartProps = {
 };
 
 const PizzaInCart = ({ name, image, description, price }: PizzaInCartProps) => {
+  // TODO Убрать counter, ставить количество исходя из поля count оюъекта пиццы. Также добавь логику прибавления количества пиццы и убавления непосредственно в localStorage (функции increasePizzaInCart и decreasePizzaInCart в api - localStorage.ts)
+
   const [counter, setCounter] = useState(1);
   const handleClickDecrease = () => {
     if (counter <= 1) {
@@ -22,6 +24,8 @@ const PizzaInCart = ({ name, image, description, price }: PizzaInCartProps) => {
   };
 
   const [closePizza, setClosePizza] = useState(true);
+
+  // TODO Сделай логику удаления пиццы из localStorage по кнопке удаления (используй removePizzaFromCart также из файла localStorage.ts)
 
   return (
     closePizza && (
@@ -44,9 +48,7 @@ const PizzaInCart = ({ name, image, description, price }: PizzaInCartProps) => {
         <button className={'font-[400] text-[14px] text-[#97A1AF] border-b'}>
           Изменить
         </button>
-        <span className={'font-[500] text-[16px]'}>
-          {price * counter} р
-        </span>
+        <span className={'font-[500] text-[16px]'}>{price * counter} р</span>
         <button onClick={() => setClosePizza(false)}>
           <img src={Cross} alt='' />
         </button>
