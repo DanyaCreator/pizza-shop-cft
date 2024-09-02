@@ -34,7 +34,7 @@ type PizzaDough = {
   price: number;
 };
 
-type Pizza = {
+export type Pizza = {
   id: string;
   name: string;
   ingredients: PizzaIngredient[];

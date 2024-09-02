@@ -1,10 +1,10 @@
-import PizzaSizeRadio from './buttons/PizzaSizeRadio.tsx';
-import RoundedBtn from './buttons/RoundedBtn.tsx';
-import { PizzaInfo } from './MainContent.tsx';
-import PizzaAdditionBtn from './buttons/PizzaAdditionBtn.tsx';
-import { pizzasIngredientNames } from '../consts/pizzasIngredientNames.ts';
+import PizzaSizeRadio from '../buttons/PizzaSizeRadio.tsx';
+import RoundedBtn from '../buttons/RoundedBtn.tsx';
+import { PizzaInfo } from '../MainContent.tsx';
+import PizzaAdditionBtn from '../buttons/PizzaAdditionBtn.tsx';
+import { pizzasIngredientNames } from '../../consts/pizzasIngredientNames.ts';
 import { useForm } from 'react-hook-form';
-import { PizzaIngredientNames } from '../types/Pizza/Pizza.ts';
+import { PizzaIngredientNames } from '../../types/Pizza/Pizza.ts';
 
 type PizzaModalMenuProps = PizzaInfo;
 

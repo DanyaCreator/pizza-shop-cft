@@ -1,4 +1,4 @@
-import RoundedBtn from './buttons/RoundedBtn.tsx';
+import RoundedBtn from '../buttons/RoundedBtn.tsx';
 import { useForm } from 'react-hook-form';
 
 type FormValues = {
