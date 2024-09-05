@@ -4,7 +4,6 @@ import { PizzaInfo } from '../MainContent.tsx';
 import PizzaAdditionBtn from '../buttons/PizzaAdditionBtn.tsx';
 import { pizzasIngredientNames } from '../../consts/pizzasIngredientNames.ts';
 import { useForm } from 'react-hook-form';
-import { PizzaIngredientNames } from '../../types/Pizza/Pizza.ts';
 import { addPizzaToCart } from '../../api/localStorage.ts';
 import { useEffect, useState } from 'react';
 
@@ -13,7 +12,7 @@ type PizzaModalMenuProps = PizzaInfo & {
 };
 
 type FormValues = {
-  ingredients: PizzaIngredientNames[];
+  ingredients: string[];
   size: 'SMALL' | 'MEDIUM' | 'LARGE';
 };
 
@@ -29,6 +28,7 @@ const PizzaModalMenu = ({
   description,
   ingredients,
   onClose,
+  size,
 }: PizzaModalMenuProps) => {
   const { register, handleSubmit, watch } = useForm<FormValues>({
     defaultValues: {
@@ -40,11 +40,22 @@ const PizzaModalMenu = ({
   const pizzaSizeWatch = watch('size');
   const pizzaIngredientsWatch = watch('ingredients');
 
-  // TODO В useState добавь дефолтное значение, вдруг пользователь выбирать ничего не будет, пока что там 0, должна быть цена выбранной пиццы маленького размера
-  const [totalAmount, setTotalAmount] = useState(0);
+  const [totalAmount, setTotalAmount] = useState(size[0].price);
 
   useEffect(() => {
-    // TODO Здесь тебе нужно исходя из выбранных юзером данных в форме менять общую сумму пиццы, используй данные pizzaSizeWatch и pizzaIngredientsWatch
+    let total = 0;
+    for (const s of size) {
+      if (s.name !== pizzaSizeWatch) continue;
+      total = s.price;
+    }
+    if (!pizzaIngredientsWatch) {
+      setTotalAmount(total);
+      return;
+    }
+    for (const i of pizzaIngredientsWatch) {
+      total += JSON.parse(i).cost;
+    }
+    setTotalAmount(total);
   }, [pizzaSizeWatch, pizzaIngredientsWatch]);
 
   const onSubmit = (data: FormValues) => {
@@ -54,7 +65,6 @@ const PizzaModalMenu = ({
       image: image,
       ingredients: data.ingredients,
       size: data.size,
-      // TODO Тут должна быть актуальная сумма
       total: totalAmount,
       count: 1,
     };
@@ -117,7 +127,7 @@ const PizzaModalMenu = ({
                   ingredientName={pizzasIngredientNames[item.name]}
                   price={item.cost}
                   number={index + 1}
-                  value={item.name}
+                  value={JSON.stringify(item)}
                   {...register('ingredients')}
                 />
               ))}

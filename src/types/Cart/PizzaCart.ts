@@ -1,10 +1,8 @@
-import { PizzaIngredientNames } from '../Pizza/Pizza.ts';
-
 export type PizzaCart = {
   name: string;
   description: string;
   image: string;
-  ingredients: PizzaIngredientNames[];
+  ingredients: string[];
   size: 'SMALL' | 'MEDIUM' | 'LARGE';
   total: number;
   count: number;

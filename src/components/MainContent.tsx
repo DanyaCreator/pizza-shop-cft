@@ -3,15 +3,19 @@ import { useEffect, useState } from 'react';
 import { useLockedBody } from '../hooks/use-lock-body.hook.ts';
 import PizzaModalMenu from './modal/PizzaModalMenu.tsx';
 import PizzaCard from './PizzaCard.tsx';
-import { PizzaCatalog, PizzaIngredient } from '../types/Pizza/Pizza.ts';
+import {
+  PizzaCatalog,
+  PizzaIngredient,
+  PizzaSize,
+} from '../types/Pizza/Pizza.ts';
 import { getCatalog } from '../api/getCatalog.ts';
 
 export type PizzaInfo = {
-  // TODO Добавь size, тип возьми готовый, тебе также нужно кидать инфу с ценой в зависимости от размера, глянь в типах
   image: string;
   name: string;
   description: string;
   ingredients: PizzaIngredient[];
+  size: PizzaSize[];
 };
 
 const MainContent = () => {
@@ -39,6 +43,7 @@ const MainContent = () => {
                 name: pizzaData.name,
                 description: pizzaData.description,
                 ingredients: pizzaData.ingredients,
+                size: pizzaData.sizes,
               })
             }
           />
@@ -51,6 +56,7 @@ const MainContent = () => {
             name={activePizzaData.name}
             description={activePizzaData.description}
             ingredients={activePizzaData.ingredients}
+            size={activePizzaData.size}
           />
         </ModalWrapper>
       )}
