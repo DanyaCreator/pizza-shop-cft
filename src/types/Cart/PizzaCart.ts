@@ -3,7 +3,7 @@ export type PizzaCart = {
   description: string;
   image: string;
   ingredients: string[];
-  size: 'SMALL' | 'MEDIUM' | 'LARGE';
+  size: string | 'SMALL' | 'MEDIUM' | 'LARGE';
   total: number;
   count: number;
 };

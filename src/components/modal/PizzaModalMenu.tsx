@@ -9,6 +9,7 @@ import { useEffect, useState } from 'react';
 
 type PizzaModalMenuProps = PizzaInfo & {
   onClose: () => void;
+  defaultValues?: FormValues;
 };
 
 type FormValues = {
@@ -29,12 +30,10 @@ const PizzaModalMenu = ({
   ingredients,
   onClose,
   size,
+  defaultValues,
 }: PizzaModalMenuProps) => {
-  const { register, handleSubmit, watch } = useForm<FormValues>({
-    defaultValues: {
-      ingredients: [],
-      size: 'SMALL',
-    },
+  const { register, handleSubmit, watch, setValue } = useForm<FormValues>({
+    defaultValues: defaultValues ? defaultValues : {},
   });
 
   const pizzaSizeWatch = watch('size');
