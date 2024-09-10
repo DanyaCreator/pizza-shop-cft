@@ -3,29 +3,29 @@ import { useEffect, useState } from 'react';
 import { useLockedBody } from '../hooks/use-lock-body.hook.ts';
 import PizzaModalMenu from './modal/PizzaModalMenu.tsx';
 import PizzaCard from './PizzaCard.tsx';
-import {
-  PizzaCatalog,
-  PizzaIngredient,
-  PizzaSize,
-} from '../types/Pizza/Pizza.ts';
+import { PizzaDto, PizzaCatalog, Pizza } from '../types/Pizza/Pizza.ts';
 import { getCatalog } from '../api/getCatalog.ts';
 
-export type PizzaInfo = {
-  image: string;
-  name: string;
-  description: string;
-  ingredients: PizzaIngredient[];
-  size: PizzaSize[];
-};
-
 const MainContent = () => {
-  const [activePizzaData, setActivePizzaData] = useState<PizzaInfo | null>();
+  const [activePizzaData, setActivePizzaData] = useState<PizzaDto | null>();
   const [pizzaCatalog, setPizzaCatalog] = useState<PizzaCatalog | null>();
   useLockedBody(!!activePizzaData);
 
   useEffect(() => {
     getCatalog().then(setPizzaCatalog);
   }, []);
+
+  const setPizzaDto = (pizzaData: Pizza) => {
+    const pizzaDto: PizzaDto = {
+      image: pizzaData.img,
+      name: pizzaData.name,
+      description: pizzaData.description,
+      ingredients: pizzaData.ingredients,
+      size: pizzaData.sizes,
+    };
+
+    setActivePizzaData(pizzaDto);
+  };
 
   return (
     <main className='container main-content'>
@@ -37,15 +37,7 @@ const MainContent = () => {
             name={pizzaData.name}
             description={pizzaData.description}
             cost={pizzaData.sizes[0].price}
-            openPizzaModal={() =>
-              setActivePizzaData({
-                image: pizzaData.img,
-                name: pizzaData.name,
-                description: pizzaData.description,
-                ingredients: pizzaData.ingredients,
-                size: pizzaData.sizes,
-              })
-            }
+            openPizzaModal={() => setPizzaDto(pizzaData)}
           />
         ))}
       {activePizzaData && (

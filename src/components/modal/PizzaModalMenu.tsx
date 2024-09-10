@@ -1,13 +1,14 @@
 import PizzaSizeRadio from '../buttons/PizzaSizeRadio.tsx';
 import RoundedBtn from '../buttons/RoundedBtn.tsx';
-import { PizzaInfo } from '../MainContent.tsx';
 import PizzaAdditionBtn from '../buttons/PizzaAdditionBtn.tsx';
 import { pizzasIngredientNames } from '../../consts/pizzasIngredientNames.ts';
 import { useForm } from 'react-hook-form';
 import { addPizzaToCart } from '../../api/localStorage.ts';
 import { useEffect, useState } from 'react';
+import { PizzaDto, PizzaIngredientNames } from '../../types/Pizza/Pizza.ts';
+import { PizzaCart } from '../../types/Cart/PizzaCart.ts';
 
-type PizzaModalMenuProps = PizzaInfo & {
+type PizzaModalMenuProps = (PizzaDto | PizzaCart) & {
   onClose: () => void;
   defaultValues?: FormValues;
 };
@@ -24,51 +25,65 @@ const pizzaSizes: Record<'SMALL' | 'MEDIUM' | 'LARGE', number> = {
 };
 
 const PizzaModalMenu = ({
-  image,
-  name,
-  description,
-  ingredients,
   onClose,
-  size,
   defaultValues,
+  ...pizzaDto
 }: PizzaModalMenuProps) => {
-  const { register, handleSubmit, watch, setValue } = useForm<FormValues>({
-    defaultValues: defaultValues ? defaultValues : {},
+  const { register, handleSubmit, watch } = useForm<FormValues>({
+    defaultValues: defaultValues
+      ? defaultValues
+      : { size: 'SMALL', ingredients: [] },
   });
 
   const pizzaSizeWatch = watch('size');
   const pizzaIngredientsWatch = watch('ingredients');
 
-  const [totalAmount, setTotalAmount] = useState(size[0].price);
+  const [pizzaCartDto, setPizzaCartDto] = useState<PizzaCart | null>(null);
 
   useEffect(() => {
-    let total = 0;
-    for (const s of size) {
-      if (s.name !== pizzaSizeWatch) continue;
-      total = s.price;
-    }
-    if (!pizzaIngredientsWatch) {
-      setTotalAmount(total);
-      return;
-    }
-    for (const i of pizzaIngredientsWatch) {
-      total += JSON.parse(i).cost;
-    }
-    setTotalAmount(total);
-  }, [pizzaSizeWatch, pizzaIngredientsWatch]);
-
-  const onSubmit = (data: FormValues) => {
-    const cartPizza = {
-      name: name,
-      description: description,
-      image: image,
-      ingredients: data.ingredients,
-      size: data.size,
-      total: totalAmount,
+    const pizzaCart: PizzaCart = {
+      ...pizzaDto,
+      ingredients: pizzaDto.ingredients.map((i) => ({ ...i, selected: false })),
+      size: pizzaDto.size.map((s) => ({ ...s, selected: false })),
+      total: pizzaDto.size[0].price,
       count: 1,
     };
 
-    addPizzaToCart(cartPizza);
+    let total = 0;
+
+    const selectedSize = pizzaCart.size.find((s) => s.name === pizzaSizeWatch);
+    if (selectedSize) {
+      total = selectedSize.price;
+      selectedSize.selected = true;
+    }
+
+    if (!pizzaIngredientsWatch) {
+      pizzaCart.total = total;
+      setPizzaCartDto(pizzaCart);
+      return;
+    }
+
+    const selectedIngredients = pizzaIngredientsWatch.map(
+      (i) => JSON.parse(i).name as PizzaIngredientNames
+    );
+
+    pizzaCart.ingredients = pizzaCart.ingredients.map((i) => ({
+      ...i,
+      selected: selectedIngredients.includes(i.name),
+    }));
+
+    for (const i of pizzaIngredientsWatch) {
+      total += JSON.parse(i).cost;
+    }
+
+    pizzaCart.total = total;
+    setPizzaCartDto(pizzaCart);
+  }, [pizzaSizeWatch, pizzaIngredientsWatch]);
+
+  const onSubmit = () => {
+    if (!pizzaCartDto) return;
+
+    addPizzaToCart(pizzaCartDto);
     onClose();
   };
 
@@ -78,19 +93,24 @@ const PizzaModalMenu = ({
         'flex items-center justify-center gap-[32px] rounded-[15px] p-[64px] pb-[24px]'
       }>
       <div className={'flex self-start w-[220px]'}>
-        <img src={`https://shift-backend.onrender.com${image}`} alt='' />
+        <img
+          src={`https://shift-backend.onrender.com${pizzaDto.image}`}
+          alt=''
+        />
       </div>
       <form
         onSubmit={handleSubmit(onSubmit)}
         className={'w-[426px] flex flex-col gap-[24px]'}>
         <div className={'pizza-info-menu'}>
           <div className={'flex flex-col gap-[8px] pl-[10px]'}>
-            <h1 className={'font-[700] text-[#292929] text-[24px]'}>{name}</h1>
+            <h1 className={'font-[700] text-[#292929] text-[24px]'}>
+              {pizzaDto.name}
+            </h1>
             <span className={'font-[400] text-[#535353] text-[14px]'}>
               {pizzaSizes[pizzaSizeWatch]} см, традиционное тесто
             </span>
             <span className={'font-[400] text-[#535353] text-[16px]'}>
-              {description}
+              {pizzaDto.description}
             </span>
           </div>
           <div className={'flex justify-between pt-[26px] pb-[26px] pl-[10px]'}>
@@ -120,7 +140,7 @@ const PizzaModalMenu = ({
               Добавить по вкусу
             </span>
             <div className={'pizza-addition-menu'}>
-              {ingredients.map((item, index) => (
+              {pizzaDto.ingredients.map((item, index) => (
                 <PizzaAdditionBtn
                   image={item.img}
                   ingredientName={pizzasIngredientNames[item.name]}

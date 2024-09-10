@@ -18,9 +18,9 @@ const PizzaInCart = ({
   increase,
 }: PizzaInCartProps) => {
   let pizzaSize;
-  if (data.size === 'SMALL') pizzaSize = 'Маленькая 25 см';
-  if (data.size === 'MEDIUM') pizzaSize = 'Средняя 30 см';
-  if (data.size === 'LARGE') pizzaSize = 'Большая 35 см';
+  if (data.size[0].selected) pizzaSize = 'Маленькая 25 см';
+  if (data.size[1].selected) pizzaSize = 'Средняя 30 см';
+  if (data.size[2].selected) pizzaSize = 'Большая 35 см';
 
   const [pizzaModal, setPizzaModal] = useState<PizzaCart | null>(null);
 
@@ -71,7 +71,12 @@ const PizzaInCart = ({
             description={pizzaModal.description}
             ingredients={pizzaModal.ingredients}
             size={pizzaModal.size}
-            defaultValues={{ ingredients: data.ingredients, size: data.size }}
+            defaultValues={{
+              ingredients: pizzaModal.ingredients
+                .filter((i) => i.selected)
+                .map((i) => JSON.stringify(i)),
+              size: pizzaModal.size.find((i) => i.selected)?.name || 'SMALL',
+            }}
           />
         </ModalWrapper>
       )}

@@ -55,6 +55,14 @@ export type Pizza = {
   img: string;
 };
 
+export type PizzaDto = {
+  image: string;
+  name: string;
+  description: string;
+  ingredients: PizzaIngredient[];
+  size: PizzaSize[];
+}
+
 export type PizzaCatalog = {
   success: boolean;
   reason?: string;
