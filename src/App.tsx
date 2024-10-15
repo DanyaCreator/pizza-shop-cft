@@ -1,10 +1,12 @@
 import MainPage from './pages/MainPage.tsx';
+import CartPage from './pages/CartPage.tsx';
 
 const App = () => {
   return (
-    <div>
+    <>
       <MainPage />
-    </div>
+      <CartPage />
+    </>
   );
 };
 

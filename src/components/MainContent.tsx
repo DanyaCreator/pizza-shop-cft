@@ -1,9 +1,9 @@
-import ModalWrapper from './modal/ModalWrapper.tsx';
+import ModalWrapper from './wrappers/ModalWrapper.tsx';
 import { useEffect, useState } from 'react';
 import { useLockedBody } from '../hooks/use-lock-body.hook.ts';
 import PizzaModalMenu from './modal/PizzaModalMenu.tsx';
 import PizzaCard from './PizzaCard.tsx';
-import { PizzaDto, PizzaCatalog, Pizza } from '../types/Pizza/Pizza.ts';
+import { Pizza, PizzaCatalog, PizzaDto } from '../types/Pizza/Pizza.ts';
 import { getCatalog } from '../api/getCatalog.ts';
 
 const MainContent = () => {

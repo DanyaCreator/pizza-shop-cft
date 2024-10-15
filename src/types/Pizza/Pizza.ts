@@ -61,7 +61,7 @@ export type PizzaDto = {
   description: string;
   ingredients: PizzaIngredient[];
   size: PizzaSize[];
-}
+};
 
 export type PizzaCatalog = {
   success: boolean;

@@ -1,8 +1,9 @@
 import { Cross } from '../assets/images.ts';
 import { PizzaCart } from '../types/Cart/PizzaCart.ts';
 import { useState } from 'react';
-import ModalWrapper from './modal/ModalWrapper.tsx';
+import ModalWrapper from './wrappers/ModalWrapper.tsx';
 import PizzaModalMenu from './modal/PizzaModalMenu.tsx';
+import { pizzasIngredientNames } from '../consts/pizzasIngredientNames.ts';
 
 type PizzaInCartProps = {
   data: PizzaCart;
@@ -33,7 +34,12 @@ const PizzaInCart = ({
       />
       <h1 className={'w-[120px] font-[500]'}>{data.name}</h1>
       <p className={'w-[280px] font-[400] text-[14px]'}>
-        {pizzaSize}, традиционное тесто <br />+
+        {pizzaSize}, традиционное тесто
+        <br />
+        {data.ingredients
+          .filter((item) => item.selected)
+          .map((item) => pizzasIngredientNames[item.name])
+          .join(', ')}
       </p>
       <div
         className={
@@ -84,7 +90,7 @@ const PizzaInCart = ({
         {data.total * data.count} р
       </span>
       <button onClick={() => removePizza(data)}>
-        <img src={Cross} alt='' />
+        <img src={Cross} alt='' className={'p-[10px]'} />
       </button>
     </article>
   );

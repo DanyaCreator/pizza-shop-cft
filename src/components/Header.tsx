@@ -2,7 +2,7 @@ import { Basket, Logo, Orders, RegLog, User } from '../assets/images.ts';
 import BtnWithIcon from './buttons/BtnWithIcon.tsx';
 import { useLockedBody } from '../hooks/use-lock-body.hook.ts';
 import { useState } from 'react';
-import ModalWrapper from './modal/ModalWrapper.tsx';
+import ModalWrapper from './wrappers/ModalWrapper.tsx';
 import AuthorizationModal from './modal/AuthorizationModal.tsx';
 import { useNavigate } from 'react-router-dom';
 import { Page } from '../enum/Page.ts';
@@ -26,7 +26,7 @@ const Header = () => {
           }}>
           <img src={Logo} alt='' />
         </button>
-        <div className={'w-full flex justify-between items-center'}>
+        <nav className={'w-full flex justify-between items-center'}>
           <div className={'flex gap-[32px]'}>
             <BtnWithIcon
               text={'Профиль'}
@@ -51,7 +51,7 @@ const Header = () => {
               openModalInfo={() => setActiveModalInfo(true)}
             />
           </div>
-        </div>
+        </nav>
       </div>
       {activeModalInfo && (
         <ModalWrapper onClose={() => setActiveModalInfo(false)}>

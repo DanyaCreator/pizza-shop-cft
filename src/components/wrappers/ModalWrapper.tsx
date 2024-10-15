@@ -20,7 +20,7 @@ const ModalWrapper = ({ onClose, children }: ModalWrapperProps) => {
         <button
           className={'absolute right-[24px] top-[16px]'}
           onClick={onClose}>
-          <img src={Cross} alt='' />
+          <img src={Cross} alt='' className={'p-[10px]'} />
         </button>
         {children}
       </div>
