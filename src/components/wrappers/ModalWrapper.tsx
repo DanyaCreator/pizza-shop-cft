@@ -1,15 +1,19 @@
 import { Cross } from '../../assets/images.ts';
 import { ReactNode, useRef } from 'react';
 import { useClickOutside } from '../../hooks/use-click-outside.hook.ts';
+import { useLockedBody } from '../../hooks/use-lock-body.hook.ts';
 
 type ModalWrapperProps = {
+  isOpen: boolean;
   onClose: () => void;
   children: ReactNode;
 };
 
-const ModalWrapper = ({ onClose, children }: ModalWrapperProps) => {
+const ModalWrapper = ({ onClose, isOpen, children }: ModalWrapperProps) => {
   const wrapperRef = useRef<HTMLDivElement | null>(null);
+
   useClickOutside(wrapperRef, onClose);
+  useLockedBody(isOpen);
 
   return (
     <div

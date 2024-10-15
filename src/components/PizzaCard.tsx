@@ -1,33 +1,28 @@
 import RoundedBtn from './buttons/RoundedBtn.tsx';
+import { Pizza } from '../types/Pizza/Pizza.ts';
+import { API } from '../enum/API.ts';
 
 type PizzaCardProps = {
-  image: string;
-  name: string;
-  description: string;
-  cost: number;
+  pizza: Pizza;
   openPizzaModal: () => void;
 };
 
-const PizzaCard = ({
-  image,
-  name,
-  description,
-  cost,
-  openPizzaModal,
-}: PizzaCardProps) => {
+const PizzaCard = ({ pizza, openPizzaModal }: PizzaCardProps) => {
+  const pizzaMinimalCost = Math.min(...pizza.sizes.map((s) => s.price));
+
   return (
     <article className={'w-[298px] flex flex-col gap-[24px]'}>
       <div className={'flex justify-center'}>
-        <img src={`https://shift-backend.onrender.com${image}`} alt='' />
+        <img src={`${API.Root + pizza.img}`} alt='' />
       </div>
       <div className={'h-full flex flex-col justify-between'}>
         <div className={'flex flex-col'}>
-          <span className={'font-[600] text-[20px]'}>{name}</span>
-          <p className={'font-[400]'}>{description}</p>
+          <span className={'font-[600] text-[20px]'}>{pizza.name}</span>
+          <p className={'font-[400]'}>{pizza.description}</p>
         </div>
         <div className={'flex flex-col gap-[24px]'}>
           <span className={'font-[600] text-[20px] mt-[32px]'}>
-            от {cost} ₽
+            от {pizzaMinimalCost} ₽
           </span>
           <RoundedBtn onClick={openPizzaModal} text={'Выбрать'} />
         </div>

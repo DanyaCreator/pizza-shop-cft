@@ -1,17 +1,44 @@
-import { ForwardedRef, forwardRef, InputHTMLAttributes } from 'react';
+import {
+  ChangeEvent,
+  ForwardedRef,
+  forwardRef,
+  InputHTMLAttributes,
+} from 'react';
+import { PizzaIngredientNames } from '../../types/Pizza/Pizza.ts';
 
 type PizzaAdditionBtnProps = InputHTMLAttributes<HTMLInputElement> & {
   image: string;
   ingredientName: string;
   price: number;
   number: number;
+  selectIngredient: (
+    ingredientName: PizzaIngredientNames,
+    checked: boolean
+  ) => void;
 };
 
 const PizzaAdditionBtn = forwardRef(
   (
-    { image, ingredientName, price, number, ...props }: PizzaAdditionBtnProps,
+    {
+      image,
+      ingredientName,
+      price,
+      number,
+      selectIngredient,
+      ...props
+    }: PizzaAdditionBtnProps,
     ref: ForwardedRef<HTMLInputElement>
   ) => {
+    const onChange = (e: ChangeEvent<HTMLInputElement>) => {
+      if (!props.onChange) return;
+
+      props.onChange(e);
+      selectIngredient(
+        e.target.value as PizzaIngredientNames,
+        e.target.checked
+      );
+    };
+
     return (
       <div>
         <input
@@ -20,6 +47,7 @@ const PizzaAdditionBtn = forwardRef(
           id={`pizza-addition-btn${number}`}
           {...props}
           ref={ref}
+          onChange={onChange}
         />
         <label
           htmlFor={`pizza-addition-btn${number}`}

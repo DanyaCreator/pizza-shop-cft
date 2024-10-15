@@ -8,26 +8,12 @@ import {
   increasePizzaInCart,
   removePizzaFromCart,
 } from '../api/localStorage.ts';
+import { PizzaUtils } from '../utils/PizzaUtils.ts';
 
 const CartContent = () => {
   const [cartData, setCartData] = useState<PizzaCart[] | null>(null);
 
   const [totalAmount, setTotalAmount] = useState(0);
-
-  const removePizza = (cartData: PizzaCart) => {
-    removePizzaFromCart(cartData);
-    fetchPizzaCart();
-  };
-
-  const increasePizza = (cartData: PizzaCart) => {
-    increasePizzaInCart(cartData);
-    fetchPizzaCart();
-  };
-
-  const decreasePizza = (cartData: PizzaCart) => {
-    decreasePizzaInCart(cartData);
-    fetchPizzaCart();
-  };
 
   const fetchPizzaCart = () => {
     const pizzaDataInCart = getCartData();
@@ -44,14 +30,31 @@ const CartContent = () => {
   }, []);
 
   useEffect(() => {
-    let totalPrice = 0;
-
     if (!cartData) return;
-    for (const i of cartData) {
-      totalPrice += i.total * i.count;
+
+    let total = 0;
+
+    for (const pizza of cartData) {
+      total += pizza.count * PizzaUtils.calculatePizzaCost(pizza);
     }
-    setTotalAmount(totalPrice);
+
+    setTotalAmount(total);
   }, [cartData]);
+
+  const removePizza = (cartData: PizzaCart) => {
+    removePizzaFromCart(cartData);
+    fetchPizzaCart();
+  };
+
+  const increasePizza = (cartData: PizzaCart) => {
+    increasePizzaInCart(cartData);
+    fetchPizzaCart();
+  };
+
+  const decreasePizza = (cartData: PizzaCart) => {
+    decreasePizzaInCart(cartData);
+    fetchPizzaCart();
+  };
 
   return (
     <div

@@ -9,6 +9,7 @@ export const getCatalog = async (): Promise<PizzaCatalog | null> => {
 
     return pizzaCatalog.data;
   } catch {
+    // TODO Make errors return
     return null;
   }
 };

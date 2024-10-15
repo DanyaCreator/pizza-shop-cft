@@ -1,14 +1,28 @@
-import { ForwardedRef, forwardRef, InputHTMLAttributes } from 'react';
+import {
+  ChangeEvent,
+  ForwardedRef,
+  forwardRef,
+  InputHTMLAttributes,
+} from 'react';
+import { PizzaSizeNames } from '../../types/Pizza/Pizza.ts';
 
 type PizzaSizeRadioProps = InputHTMLAttributes<HTMLInputElement> & {
   title: string;
+  selectSize: (sizeName: PizzaSizeNames) => void;
 };
 
 const PizzaSizeRadio = forwardRef(
   (
-    { title, ...props }: PizzaSizeRadioProps,
+    { title, selectSize, ...props }: PizzaSizeRadioProps,
     ref: ForwardedRef<HTMLInputElement>
   ) => {
+    const onChange = (e: ChangeEvent<HTMLInputElement>) => {
+      if (!props.onChange) return;
+
+      props.onChange(e);
+      selectSize(e.target.value as PizzaSizeNames);
+    };
+
     return (
       <div className={'relative w-[130px] h-[40px]'}>
         <input
@@ -18,6 +32,7 @@ const PizzaSizeRadio = forwardRef(
           }
           {...props}
           ref={ref}
+          onChange={onChange}
         />
         <label
           className={

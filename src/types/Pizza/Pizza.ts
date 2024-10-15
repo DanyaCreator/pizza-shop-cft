@@ -24,8 +24,10 @@ export type PizzaIngredient = {
   img: string;
 };
 
+export type PizzaSizeNames = 'SMALL' | 'MEDIUM' | 'LARGE';
+
 export type PizzaSize = {
-  name: 'SMALL' | 'MEDIUM' | 'LARGE';
+  name: PizzaSizeNames;
   price: number;
 };
 

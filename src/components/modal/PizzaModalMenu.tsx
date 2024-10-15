@@ -5,17 +5,26 @@ import { pizzasIngredientNames } from '../../consts/pizzasIngredientNames.ts';
 import { useForm } from 'react-hook-form';
 import { addPizzaToCart } from '../../api/localStorage.ts';
 import { useEffect, useState } from 'react';
-import { PizzaDto, PizzaIngredientNames } from '../../types/Pizza/Pizza.ts';
+import {
+  Pizza,
+  PizzaIngredient,
+  PizzaIngredientNames,
+  PizzaSize,
+  PizzaSizeNames,
+} from '../../types/Pizza/Pizza.ts';
 import { PizzaCart } from '../../types/Cart/PizzaCart.ts';
+import { API } from '../../enum/API.ts';
 
-type PizzaModalMenuProps = (PizzaDto | PizzaCart) & {
+type PizzaModalMenuProps = {
+  pizza: Pizza;
   onClose: () => void;
-  defaultValues?: FormValues;
+  selectedSize?: PizzaSize;
+  selectedIngredients?: PizzaIngredient[];
 };
 
 type FormValues = {
-  ingredients: string[];
-  size: 'SMALL' | 'MEDIUM' | 'LARGE';
+  ingredients: PizzaIngredientNames[];
+  size: PizzaSizeNames;
 };
 
 const pizzaSizes: Record<'SMALL' | 'MEDIUM' | 'LARGE', number> = {
@@ -25,65 +34,74 @@ const pizzaSizes: Record<'SMALL' | 'MEDIUM' | 'LARGE', number> = {
 };
 
 const PizzaModalMenu = ({
+  pizza,
   onClose,
-  defaultValues,
-  ...pizzaDto
+  selectedIngredients,
+  selectedSize,
 }: PizzaModalMenuProps) => {
   const { register, handleSubmit, watch } = useForm<FormValues>({
-    defaultValues: defaultValues
-      ? defaultValues
-      : { size: 'SMALL', ingredients: [] },
+    defaultValues:
+      selectedSize && selectedIngredients
+        ? {
+            size: selectedSize.name,
+            ingredients: selectedIngredients.map((i) => i.name),
+          }
+        : { size: 'SMALL', ingredients: [] },
   });
 
   const pizzaSizeWatch = watch('size');
-  const pizzaIngredientsWatch = watch('ingredients');
 
-  const [pizzaCartDto, setPizzaCartDto] = useState<PizzaCart | null>(null);
+  const [currentPizza, setCurrentPizza] = useState<PizzaCart | null>(null);
 
   useEffect(() => {
-    const pizzaCart: PizzaCart = {
-      ...pizzaDto,
-      ingredients: pizzaDto.ingredients.map((i) => ({ ...i, selected: false })),
-      size: pizzaDto.size.map((s) => ({ ...s, selected: false })),
-      total: pizzaDto.size[0].price,
+    const minimalPizzaSize = pizza.sizes.find((s) => s.name === 'SMALL');
+
+    if (!minimalPizzaSize) return;
+
+    setCurrentPizza({
+      ...pizza,
+      selectedSize: minimalPizzaSize,
+      selectedIngredients: [],
       count: 1,
-    };
+    });
+  }, [pizza]);
 
-    let total = 0;
+  const selectSize = (sizeName: PizzaSizeNames) => {
+    if (!currentPizza) return;
 
-    const selectedSize = pizzaCart.size.find((s) => s.name === pizzaSizeWatch);
-    if (selectedSize) {
-      total = selectedSize.price;
-      selectedSize.selected = true;
-    }
+    const selectedSize = pizza.sizes.find((s) => s.name === sizeName);
 
-    if (!pizzaIngredientsWatch) {
-      pizzaCart.total = total;
-      setPizzaCartDto(pizzaCart);
-      return;
-    }
+    if (!selectedSize) return;
 
-    const selectedIngredients = pizzaIngredientsWatch.map(
-      (i) => JSON.parse(i).name as PizzaIngredientNames
-    );
+    setCurrentPizza({ ...currentPizza, selectedSize });
+  };
 
-    pizzaCart.ingredients = pizzaCart.ingredients.map((i) => ({
-      ...i,
-      selected: selectedIngredients.includes(i.name),
-    }));
+  const selectIngredient = (
+    ingredientName: PizzaIngredientNames,
+    checked: boolean
+  ) => {
+    if (!currentPizza) return;
 
-    for (const i of pizzaIngredientsWatch) {
-      total += JSON.parse(i).cost;
-    }
+    const ingredient = pizza.ingredients.find((i) => i.name === ingredientName);
 
-    pizzaCart.total = total;
-    setPizzaCartDto(pizzaCart);
-  }, [pizzaSizeWatch, pizzaIngredientsWatch]);
+    if (!ingredient) return;
+
+    let selectedIngredients: PizzaIngredient[];
+
+    if (checked)
+      selectedIngredients = [...currentPizza.selectedIngredients, ingredient];
+    else
+      selectedIngredients = currentPizza.selectedIngredients.filter(
+        (i) => i.name !== ingredientName
+      );
+
+    setCurrentPizza({ ...currentPizza, selectedIngredients });
+  };
 
   const onSubmit = () => {
-    if (!pizzaCartDto) return;
+    if (!currentPizza) return;
 
-    addPizzaToCart(pizzaCartDto);
+    addPizzaToCart(currentPizza);
     onClose();
   };
 
@@ -93,10 +111,7 @@ const PizzaModalMenu = ({
         'flex items-center justify-center gap-[32px] rounded-[15px] p-[64px] pb-[24px]'
       }>
       <div className={'flex self-start w-[220px]'}>
-        <img
-          src={`https://shift-backend.onrender.com${pizzaDto.image}`}
-          alt=''
-        />
+        <img src={`${API.Root + pizza.img}`} alt='' />
       </div>
       <form
         onSubmit={handleSubmit(onSubmit)}
@@ -104,13 +119,13 @@ const PizzaModalMenu = ({
         <div className={'pizza-info-menu'}>
           <div className={'flex flex-col gap-[8px] pl-[10px]'}>
             <h1 className={'font-[700] text-[#292929] text-[24px]'}>
-              {pizzaDto.name}
+              {pizza.name}
             </h1>
             <span className={'font-[400] text-[#535353] text-[14px]'}>
               {pizzaSizes[pizzaSizeWatch]} см, традиционное тесто
             </span>
             <span className={'font-[400] text-[#535353] text-[16px]'}>
-              {pizzaDto.description}
+              {pizza.description}
             </span>
           </div>
           <div className={'flex justify-between pt-[26px] pb-[26px] pl-[10px]'}>
@@ -121,16 +136,19 @@ const PizzaModalMenu = ({
               <PizzaSizeRadio
                 title={'Маленькая'}
                 value={'SMALL'}
+                selectSize={selectSize}
                 {...register('size')}
               />
               <PizzaSizeRadio
                 title={'Средняя'}
                 value={'MEDIUM'}
+                selectSize={selectSize}
                 {...register('size')}
               />
               <PizzaSizeRadio
                 title={'Большая'}
                 value={'LARGE'}
+                selectSize={selectSize}
                 {...register('size')}
               />
             </fieldset>
@@ -140,13 +158,14 @@ const PizzaModalMenu = ({
               Добавить по вкусу
             </span>
             <div className={'pizza-addition-menu'}>
-              {pizzaDto.ingredients.map((item, index) => (
+              {pizza.ingredients.map((item, index) => (
                 <PizzaAdditionBtn
                   image={item.img}
                   ingredientName={pizzasIngredientNames[item.name]}
                   price={item.cost}
                   number={index + 1}
-                  value={JSON.stringify(item)}
+                  value={item.name}
+                  selectIngredient={selectIngredient}
                   {...register('ingredients')}
                 />
               ))}
